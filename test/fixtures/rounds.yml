@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  course: one
+  match: one
+  hole_1: 1
+
+two:
+  user: two
+  course: two
+  match: two
+  hole_1: 1
