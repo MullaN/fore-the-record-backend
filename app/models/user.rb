@@ -6,14 +6,13 @@ class User < ApplicationRecord
     has_secure_password
 
     def handicap
-        last_twenty = self.rounds.sort_by {|round| round.created_at}.reverse[0..19]
-        best_eight = last_twenty.sort_by {|round| round.score.to_i}[0..7]
+        best_eight = self.last_twenty.sort_by {|round| round.score.to_i}[0..7]
         return -(best_eight.sum {|round| round.score.to_i} / 8)
     end
 
     def best_round
         best_round = self.rounds.sort_by{|round| round.score.to_i}[0]
-        return {round: best_round, score: best_round.score}
+        return {round: best_round, score: best_round.score, course: best_round.course}
     end
 
     def best_course
@@ -29,5 +28,9 @@ class User < ApplicationRecord
         end
 
         return Course.find(course_track.min_by {|k, v| v[:average]}[0])
+    end
+
+    def last_twenty
+        return self.rounds.sort_by {|round| round.created_at}.reverse[0..19]
     end
 end
