@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+
     def create
         api_key = ENV["STEAM_API_KEY"]
         user = User.new(user_params)
@@ -10,14 +11,15 @@ class UsersController < ApplicationController
             user.avatar = steam_info['response']['players'][0]['avatarfull']
             if user.valid?
                 user.save
-                render json: { user: user.to_json(except: [:created_at, :updated_at, :password_digest]) }, status: :created
+                token = encode_token(user_id: user.id)
+                render json: { user: user.to_json(except: [:created_at, :updated_at, :password_digest]), jwt: token }, status: :created
             else
                 render json: { error: 'failed to create user' }, status: :not_acceptable
             end
         else
             render json: { error: 'steam id not found' }, status: :not_acceptable
         end
-    end 
+    end
 
     def show
         user = User.find(params[:id])

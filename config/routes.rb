@@ -7,4 +7,5 @@ Rails.application.routes.draw do
 
   get '/users/:id/rounds', to: 'users#rounds' 
   get '/rounds/:num', to: 'rounds#num_rounds'
+  post '/login', to: 'auth#create'
 end
