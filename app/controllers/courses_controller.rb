@@ -7,6 +7,6 @@ class CoursesController < ApplicationController
 
     def show
         course = Course.find(params[:id])
-        render json: courses.to_json(only: ['id', 'name', 'cover_img'], methods: ['top_ten_rounds'])
+        render json: course.to_json(only: ['id', 'name', 'cover_img'], methods: ['top_ten_rounds'])
     end
 end
