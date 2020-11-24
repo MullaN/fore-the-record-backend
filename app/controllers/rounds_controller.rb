@@ -10,4 +10,11 @@ class RoundsController < ApplicationController
         rounds = rounds.sort_by {|round| round.score.to_i}[0..params[:num].to_i]
         render json: rounds.to_json(except: [:updated_at], include:[:user, :course, :match], methods: ['score'])
     end
+
+    def top_ten_for_course
+        rounds = Round.all
+        rounds = rounds.select {|round| round.course.id == params[:cid].to_i}
+        rounds = rounds.sort_by {|round| round.score.to_i}[0..10]
+        render json: rounds.to_json(except: [:updated_at], include:[:user, :course, :match], methods: ['score'])
+    end
 end
