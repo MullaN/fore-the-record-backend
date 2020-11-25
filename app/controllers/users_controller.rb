@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :authorized, only: [:friends]
+    before_action :authorized, only: [:profile, :friends]
 
     def create
         api_key = ENV["STEAM_API_KEY"]
@@ -20,6 +20,10 @@ class UsersController < ApplicationController
         else
             render json: { error: 'steam id not found' }, status: :not_acceptable
         end
+    end
+    
+    def profile
+        render json: current_user.to_json(except: [:created_at, :updated_at, :password_digest])
     end
 
     def show
