@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   get '/users/:id/rounds', to: 'users#rounds' 
   get '/rounds/:num', to: 'rounds#num_rounds'
   get '/rounds/courses/:cid', to: 'rounds#top_ten_for_course'
+  get '/users/:id/friends', to: 'users#friends'
   post '/login', to: 'auth#create'
 end
