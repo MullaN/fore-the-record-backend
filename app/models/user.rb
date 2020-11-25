@@ -2,6 +2,8 @@ class User < ApplicationRecord
     has_many :rounds
     has_many :courses, through: :rounds
     has_many :matches, through: :rounds
+    validates :email, uniqueness: true
+    validates :steam_id, uniqueness: true
 
     has_secure_password
 
