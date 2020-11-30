@@ -15,7 +15,7 @@ class User < ApplicationRecord
             else
                 divider = best_ten.length
             end
-            return -(best_eight.sum {|round| round.score.to_i} / divider)
+            return -(best_ten.sum {|round| round.score.to_i} / divider)
         else
             return 'N/A'
         end
