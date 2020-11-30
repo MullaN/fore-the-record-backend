@@ -34,7 +34,12 @@ class UsersController < ApplicationController
     def rounds
         user = User.find(params[:id])
         last_twenty = user.last_twenty
-        render json: last_twenty.to_json(include: [:user, :course, :match], methods: ['score'])
+        error = {error: 'No rounds played'}
+        if last_twenty.length > 0
+            render json: last_twenty.to_json(include: [:user, :course, :match], methods: ['score'])
+        else
+            render json: error
+        end
     end
 
     def friends
