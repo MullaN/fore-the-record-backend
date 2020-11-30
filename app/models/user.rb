@@ -9,8 +9,13 @@ class User < ApplicationRecord
 
     def handicap
         if self.rounds.length > 0
-            best_eight = self.last_twenty.sort_by {|round| round.score.to_i}[0..7]
-            return -(best_eight.sum {|round| round.score.to_i} / 8)
+            best_ten = self.last_twenty.sort_by {|round| round.score.to_i}[0..9]
+            if best_ten.length >= 10
+                divider = 10
+            else
+                divider = best_ten.length
+            end
+            return -(best_eight.sum {|round| round.score.to_i} / divider)
         else
             return 'N/A'
         end
