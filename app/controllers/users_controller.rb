@@ -52,6 +52,7 @@ class UsersController < ApplicationController
             e.response
         end
         if response
+            friends = JSON.parse(response)
             friends = friends['friendslist']['friends']
             friends = friends.select {|friend| User.find_by(steam_id: friend['steamid'].to_i)}
             friends = friends.map {|friend| User.find_by(steam_id: friend['steamid'].to_i)}
