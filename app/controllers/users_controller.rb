@@ -48,7 +48,7 @@ class UsersController < ApplicationController
         response = nil
         begin
             response = RestClient.get(url)
-        rescue RestClient::ExceptionWithRsponse => e
+        rescue RestClient::ExceptionWithResponse => e
             e.response
         end
         if response
