@@ -47,10 +47,14 @@ class UsersController < ApplicationController
         url = "http://api.steampowered.com/ISteamUser/GetFriendList/v0001/?key=#{api_key}&steamid=#{User.find(params[:id])[:steam_id].to_s}&relationship=friend"
         response = RestClient.get(url)
         friends = JSON.parse(response)
-        friends = friends['friendslist']['friends']
-        friends = friends.select {|friend| User.find_by(steam_id: friend['steamid'].to_i)}
-        friends = friends.map {|friend| User.find_by(steam_id: friend['steamid'].to_i)}
-        render json: friends
+        if friends['friendslist']
+            friends = friends['friendslist']['friends']
+            friends = friends.select {|friend| User.find_by(steam_id: friend['steamid'].to_i)}
+            friends = friends.map {|friend| User.find_by(steam_id: friend['steamid'].to_i)}
+            render json: friends
+        else
+            render json: {error: 'private profile'}
+        end
     end
 
     private
