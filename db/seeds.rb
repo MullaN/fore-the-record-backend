@@ -33,12 +33,22 @@ data.each do |row|
     )
 end
 
-# user1 = User.create(email: 'admullan@gmail.com', username: 'All Purple Everything', steam_id: 76561197964983146, avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/97/97259427a00d50a8b17c6b8182881d9df47e45cb_full.jpg', password: 'asdfjkl', password_confirmation: 'asdfjkl')
+steam_ids = [76561197964983146, 76561197982415562, 76561198038490113, 76561198048354274, 76561198059116169, 76561197968501451, 76561198053838495, 76561198074766076, 76561198044024478, 76561198024159467]
 
-# for i in 0..40
-#     match = Match.create(course_id: rand(12) + 1)
-#     Round.create(match_id: match.id, user_id: user1.id, course_id: match.course_id, hole_1: rand(7) + 1, hole_2: rand(7) + 1, hole_3: rand(7) + 1, hole_4: rand(7) + 1, hole_5: rand(7) + 1, hole_6: rand(7) + 1, hole_7: rand(7) + 1, hole_8: rand(7) + 1, hole_9: rand(7) + 1, hole_10: rand(7) + 1, hole_11: rand(7) + 1, hole_12: rand(7) + 1, hole_13: rand(7) + 1, hole_14: rand(7) + 1, hole_15: rand(7) + 1, hole_16: rand(7) + 1, hole_17: rand(7) + 1, hole_18: rand(7) + 1)
-# end
+steam_ids.each do |steam_id|
+    api_key = ENV["STEAM_API_KEY"]
+    user1 = User.new(steam_id: steam_id)
+    url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=#{api_key}&steamids=#{steam_id}"
+    response = RestClient.get(url)
+    steam_info = JSON.parse(response)
+    user1.username = steam_info['response']['players'][0]['personaname']
+    user1.avatar = steam_info['response']['players'][0]['avatarfull']
+    user1.save
+    for i in 0..40
+        match = Match.create(course_id: (rand(12) + 1))
+        Round.create(match_id: match.id, user_id: user1.id, course_id: match.course_id, hole_1: rand(7) + 1, hole_2: rand(7) + 1, hole_3: rand(7) + 1, hole_4: rand(7) + 1, hole_5: rand(7) + 1, hole_6: rand(7) + 1, hole_7: rand(7) + 1, hole_8: rand(7) + 1, hole_9: rand(7) + 1, hole_10: rand(7) + 1, hole_11: rand(7) + 1, hole_12: rand(7) + 1, hole_13: rand(7) + 1, hole_14: rand(7) + 1, hole_15: rand(7) + 1, hole_16: rand(7) + 1, hole_17: rand(7) + 1, hole_18: rand(7) + 1)
+    end
+end
 
 # user1 = User.create(email: 'admullan@gmail.com', username: 'Stinkmeyer', steam_id: 76561197982415562, avatar: 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/25/25b644b4ac1a5fce01d1308fcf4eb28ee5e6449e_full.jpg', password: 'asdfjkl', password_confirmation: 'asdfjkl')
 
