@@ -7,7 +7,7 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins 'https://fore-the-record.web.app'
+    origins 'localhost:3000', 'fore-the-record.web.app'
 
     resource '*',
       headers: :any,
