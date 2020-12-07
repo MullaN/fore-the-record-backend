@@ -5,7 +5,6 @@ class CreateUsers < ActiveRecord::Migration[6.0]
       t.string :username
       t.bigint :steam_id
       t.string :avatar
-      t.string :password_digest
 
       t.timestamps
     end
