@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-    before_action :authorized, only: [:profile, :friends]
+    before_action :authorized, only: [:profile, :friends, :update]
 
     def create
         api_key = ENV["STEAM_API_KEY"]
