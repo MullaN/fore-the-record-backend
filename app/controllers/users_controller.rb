@@ -9,7 +9,9 @@ class UsersController < ApplicationController
             response = RestClient.get(url)
             steam_info = JSON.parse(response)
             if steam_info['response']['players'].length > 0 && (user.username != steam_info['response']['players'][0]['personaname'] || user.avatar != steam_info['response']['players'][0]['avatarfull'])
-                user.update(username: team_info['response']['players'][0]['personaname'], avatar: steam_info['response']['players'][0]['avatarfull'])
+                user.username = steam_info['response']['players'][0]['personaname']
+                user.avatar = steam_info['response']['players'][0]['avatarfull']
+                user.save
             end
             token = encode_token(user_id: user.id)
             render json: { user: user.to_json(except: [:created_at, :updated_at]), jwt: token }, status: :created
