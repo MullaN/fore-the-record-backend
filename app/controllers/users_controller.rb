@@ -4,6 +4,13 @@ class UsersController < ApplicationController
     def create
         if User.find_by(steam_id: user_params[:steam_id])
             user = User.find_by(steam_id: user_params[:steam_id])
+            api_key = ENV["STEAM_API_KEY"]
+            url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=#{api_key}&steamids=#{user_params[:steam_id]}"
+            response = RestClient.get(url)
+            steam_info = JSON.parse(response)
+            if steam_info['response']['players'].length > 0 && (user.username != steam_info['response']['players'][0]['personaname'] || user.avatar != steam_info['response']['players'][0]['avatarfull'])
+                user.update(username: team_info['response']['players'][0]['personaname'], avatar: steam_info['response']['players'][0]['avatarfull'])
+            end
             token = encode_token(user_id: user.id)
             render json: { user: user.to_json(except: [:created_at, :updated_at]), jwt: token }, status: :created
         else
